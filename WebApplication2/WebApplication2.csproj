@@ -144,11 +144,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PagingHelpers.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\PageInfo.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\Software.cs" />
     <Compile Include="Models\SoftwareContext.cs" />
     <Compile Include="Models\SoftwareDbInitializer.cs" />
+    <Compile Include="Models\SoftwareIndexViewModel.cs" />
     <Compile Include="Models\SoftwareListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

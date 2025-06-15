@@ -1,6 +1,43 @@
-﻿@{
+﻿@model SoftwareStore.Models.Software
+
+@{
+    ViewBag.Title = "Деталі ПЗ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model SoftwareStore.Models.Software
+
 <h2>Програмне забезпечення № @Model.Id</h2>
-@Html.DisplayForModel()
+
+<table class="table table-bordered">
+    <tr>
+        <th>Id</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th>Назва</th>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <th>Розробник</th>
+        <td>@Model.Developer</td>
+    </tr>
+    <tr>
+        <th>Версія</th>
+        <td>@Model.Version</td>
+    </tr>
+    <tr>
+        <th>Ціна</th>
+        <td>@Model.Price</td>
+    </tr>
+    <tr>
+        <th>Тип ліцензії</th>
+        <td>@Model.LicenseType</td>
+    </tr>
+    <tr>
+        <th>Категорія</th>
+        <td>@(Model.Category != null ? Model.Category.Name : "Без категорії")</td>
+    </tr>
+</table>
+
+<p>
+    @Html.ActionLink("Повернутися до списку", "Index")
+</p>

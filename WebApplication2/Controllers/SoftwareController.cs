@@ -13,8 +13,9 @@ namespace SoftwareStore.Controllers
     {
         private SoftwareContext db = new SoftwareContext();
 
-        public ActionResult Index(int? categoryId, string licenseType)
+        public ActionResult Index(int? categoryId, string licenseType, int page = 1)
         {
+            int pageSize = 5;
             IQueryable<Software> softwares = db.Softwares.Include(s => s.Category);
 
             if (categoryId != null && categoryId != 0)
@@ -27,6 +28,14 @@ namespace SoftwareStore.Controllers
                 softwares = softwares.Where(s => s.LicenseType == licenseType);
             }
 
+            var totalItems = softwares.Count();
+
+            var softwaresOnPage = softwares
+                .OrderBy(s => s.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
             var categories = db.Categories.ToList();
             categories.Insert(0, new Category { Id = 0, Name = "Всі" });
 
@@ -38,13 +47,22 @@ namespace SoftwareStore.Controllers
 
             var model = new SoftwareListViewModel
             {
-                Softwares = softwares.ToList(),
-                Categories = new SelectList(categories, "Id", "Name"),
-                LicenseTypes = new SelectList(licenseTypes)
+                Softwares = softwaresOnPage,
+                Categories = new SelectList(categories, "Id", "Name", categoryId),
+                LicenseTypes = new SelectList(licenseTypes, licenseType),
+                PageInfo = new PageInfo
+                {
+                    PageNumber = page,
+                    PageSize = pageSize,
+                    TotalItems = totalItems
+                }
             };
 
             return View(model);
         }
+
+
+
 
         // GET: /Software/Details/5
         public ActionResult Details(int id = 0)
@@ -60,6 +78,8 @@ namespace SoftwareStore.Controllers
         // GET: /Software/Create
         public ActionResult Create()
         {
+            var categories = db.Categories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View();
         }
 
@@ -73,8 +93,12 @@ namespace SoftwareStore.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            var categories = db.Categories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", software.CategoryId);
             return View(software);
         }
+
 
         // GET: /Software/Edit/5
         public ActionResult Edit(int id = 0)
@@ -84,8 +108,13 @@ namespace SoftwareStore.Controllers
             {
                 return HttpNotFound();
             }
+
+            var categories = db.Categories.ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", software.CategoryId);
+
             return View(software);
         }
+
 
         // POST: /Software/Edit/5
         [HttpPost]

@@ -1,42 +1,49 @@
-﻿@{
+﻿@model SoftwareStore.Models.SoftwareListViewModel
+@using SoftwareStore.Helpers
+
+@{
+    ViewBag.Title = "Програмне забезпечення";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var softwares = ViewBag.Softwares as IEnumerable<SoftwareStore.Models.Software>;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Магазин програмного забезпечення</title>
-</head>
-<body>
-    <div>
-        <h3>Розпродаж програмного забезпечення</h3>
-        <table>
-            <tr>
-                <th>Назва ПЗ</th>
-                <th>Розробник</th>
-                <th>Версія</th>
-                <th>Ціна</th>
-                <th>Тип ліцензії</th>
-                <th>Категорія</th>
-                <th></th>
-            </tr>
-            @foreach (var b in softwares)
-            {
-                <tr>
-                    <td>@b.Name</td>
-                    <td>@b.Developer</td>
-                    <td>@b.Version</td>
-                    <td>@b.Price</td>
-                    <td>@b.LicenseType</td>
-                    <td>@(b.Category != null ? b.Category.Name : "Без категорії")</td>
-                    <td>
-                        <a href="/Home/Buy/@b.Id">Оформити покупку</a>
-                    </td>
-                </tr>
-            }
-        </table>
-    </div>
-</body>
-</html>
+<h2>Список ПЗ</h2>
+
+<p>
+    @Html.ActionLink("Додати нове ПЗ", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>Назва</th>
+        <th>Розробник</th>
+        <th>Версія</th>
+        <th>Ціна</th>
+        <th>Тип ліцензії</th>
+        <th>Категорія</th>
+        <th>Дії</th>
+    </tr>
+    @foreach (var s in Model.Softwares)
+    {
+        <tr>
+            <td>@s.Name</td>
+            <td>@s.Developer</td>
+            <td>@s.Version</td>
+            <td>@s.Price</td>
+            <td>@s.LicenseType</td>
+            <td>@(s.Category != null ? s.Category.Name : "Без категорії")</td>
+            <td>
+                @Html.ActionLink("Редагувати", "EditSoftware", new { id = s.Id }) |
+                @Html.ActionLink("Деталі", "SoftwareView", new { id = s.Id }) |
+                @Html.ActionLink("Видалити", "Delete", new { id = s.Id })
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, page => Url.Action("Index", new {
+        page = page,
+        categoryId = Model.CurrentCategoryId,
+        licenseType = Model.CurrentLicenseType
+    }))
+</div>
