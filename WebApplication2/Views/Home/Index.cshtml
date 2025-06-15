@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var softwares = ViewBag.Softwares as IEnumerable<SoftwareStore.Models.Software>;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Магазин програмного забезпечення</title>
+</head>
+<body>
+    <div>
+        <h3>Розпродаж програмного забезпечення</h3>
+        <table>
+            <tr>
+                <th>Назва ПЗ</th>
+                <th>Розробник</th>
+                <th>Версія</th>
+                <th>Ціна</th>
+                <th>Тип ліцензії</th>
+                <th>Категорія</th>
+                <th></th>
+            </tr>
+            @foreach (var b in softwares)
+            {
+                <tr>
+                    <td>@b.Name</td>
+                    <td>@b.Developer</td>
+                    <td>@b.Version</td>
+                    <td>@b.Price</td>
+                    <td>@b.LicenseType</td>
+                    <td>@(b.Category != null ? b.Category.Name : "Без категорії")</td>
+                    <td>
+                        <a href="/Home/Buy/@b.Id">Оформити покупку</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

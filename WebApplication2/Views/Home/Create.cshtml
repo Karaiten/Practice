@@ -1,0 +1,41 @@
+﻿@model SoftwareStore.Models.Software
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Нове програмне забезпечення</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model => model.Name, "Назва ПЗ")
+    <br />
+    @Html.EditorFor(model => model.Name)
+    <br /><br />
+
+    @Html.LabelFor(model => model.Developer, "Розробник")
+    <br />
+    @Html.EditorFor(model => model.Developer)
+    <br /><br />
+
+    @Html.LabelFor(model => model.Version, "Версія")
+    <br />
+    @Html.EditorFor(model => model.Version)
+    <br /><br />
+
+    @Html.LabelFor(model => model.Price, "Ціна")
+    <br />
+    @Html.EditorFor(model => model.Price)
+    <br /><br />
+
+    @Html.LabelFor(model => model.LicenseType, "Тип ліцензії")
+    <br />
+    @Html.EditorFor(model => model.LicenseType)
+    <br /><br />
+
+    @Html.LabelFor(model => model.CategoryId, "Категорія")
+    <br />
+    @Html.DropDownListFor(model => model.CategoryId, ViewBag.Categories as SelectList, "Оберіть категорію")
+    <br /><br />
+
+    <input type="submit" value="Додати запис" />
+}

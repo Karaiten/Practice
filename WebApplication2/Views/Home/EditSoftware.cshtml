@@ -1,0 +1,54 @@
+﻿@model SoftwareStore.Models.Software
+@{
+    ViewBag.Title = "Редагувати програмне забезпечення";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Редагувати ПЗ № @Model.Id</h2>
+
+@using (Html.BeginForm("EditSoftware", "Home", FormMethod.Post))
+{
+    <fieldset>
+        @Html.HiddenFor(m => m.Id)
+
+        <p>
+            @Html.LabelFor(m => m.Name, "Назва ПЗ")
+            <br />
+            @Html.EditorFor(m => m.Name)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.Developer, "Розробник")
+            <br />
+            @Html.EditorFor(m => m.Developer)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.Version, "Версія")
+            <br />
+            @Html.EditorFor(m => m.Version)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.Price, "Ціна")
+            <br />
+            @Html.EditorFor(m => m.Price)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.LicenseType, "Тип ліцензії")
+            <br />
+            @Html.EditorFor(m => m.LicenseType)
+        </p>
+
+        <p>
+            @Html.LabelFor(m => m.CategoryId, "Категорія")
+            <br />
+            @Html.DropDownListFor(m => m.CategoryId, ViewBag.Categories as SelectList, "Оберіть категорію")
+        </p>
+
+        <p>
+            <input type="submit" value="Зберегти зміни" />
+        </p>
+    </fieldset>
+}

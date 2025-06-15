@@ -1,0 +1,32 @@
+﻿@model SoftwareStore.Models.Software
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Видалення програмного забезпечення</h2>
+
+<dl>
+    <dt>Назва</dt>
+    <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+    <dt>Розробник</dt>
+    <dd>@Html.DisplayFor(model => model.Developer)</dd>
+
+    <dt>Версія</dt>
+    <dd>@Html.DisplayFor(model => model.Version)</dd>
+
+    <dt>Ціна</dt>
+    <dd>@Html.DisplayFor(model => model.Price)</dd>
+
+    <dt>Тип ліцензії</dt>
+    <dd>@Html.DisplayFor(model => model.LicenseType)</dd>
+
+    <dt>Категорія</dt>
+    <dd>@(Model.Category != null ? Model.Category.Name : "Без категорії")</dd>
+</dl>
+
+@using (Html.BeginForm("Delete", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Id)
+    <input type="submit" value="Видалити" />
+}
