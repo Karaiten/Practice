@@ -1,65 +1,54 @@
-﻿@model IEnumerable<SoftwareStore.Models.Software>
-
+﻿@model SoftwareStore.Models.SoftwareListViewModel
 @{
-    Layout = null;
+    ViewBag.Title = "Список ПЗ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>Каталог програмного забезпечення</h2>
 
-<!DOCTYPE html>
+<p>
+    @Html.ActionLink("Додати ПЗ", "Create")
+</p>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
+<form method="get">
+    <div class="form-inline">
+        <label>Категорія:</label>
+        @Html.DropDownList("categoryId", Model.Categories, new { @class = "form-control" })
+
+        <label>Тип ліцензії:</label>
+        @Html.DropDownList("licenseType", Model.LicenseTypes, new { @class = "form-control" })
+
+        <input type="submit" value="Фільтрувати" class="btn btn-primary" />
+    </div>
+</form>
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>Назва</th>
+        <th>Розробник</th>
+        <th>Версія</th>
+        <th>Ціна</th>
+        <th>Тип ліцензії</th>
+        <th>Категорія</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Softwares)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Developer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Version)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LicenseType)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
+            <td>@item.Name</td>
+            <td>@item.Developer</td>
+            <td>@item.Version</td>
+            <td>@item.Price</td>
+            <td>@item.LicenseType</td>
+            <td>@(item.Category != null ? item.Category.Name : "Без категорії")</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Developer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Version)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LicenseType)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Деталі", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
             </td>
         </tr>
     }
-    
-    </table>
-</body>
-</html>
+
+</table>

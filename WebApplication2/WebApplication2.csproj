@@ -149,6 +149,7 @@
     <Compile Include="Models\Software.cs" />
     <Compile Include="Models\SoftwareContext.cs" />
     <Compile Include="Models\SoftwareDbInitializer.cs" />
+    <Compile Include="Models\SoftwareListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

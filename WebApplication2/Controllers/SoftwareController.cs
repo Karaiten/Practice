@@ -13,10 +13,37 @@ namespace SoftwareStore.Controllers
     {
         private SoftwareContext db = new SoftwareContext();
 
-        // GET: /Software/
-        public ActionResult Index()
+        public ActionResult Index(int? categoryId, string licenseType)
         {
-            return View(db.Softwares.ToList());
+            IQueryable<Software> softwares = db.Softwares.Include(s => s.Category);
+
+            if (categoryId != null && categoryId != 0)
+            {
+                softwares = softwares.Where(s => s.CategoryId == categoryId);
+            }
+
+            if (!string.IsNullOrEmpty(licenseType) && licenseType != "Всі")
+            {
+                softwares = softwares.Where(s => s.LicenseType == licenseType);
+            }
+
+            var categories = db.Categories.ToList();
+            categories.Insert(0, new Category { Id = 0, Name = "Всі" });
+
+            var licenseTypes = db.Softwares
+                                 .Select(s => s.LicenseType)
+                                 .Distinct()
+                                 .ToList();
+            licenseTypes.Insert(0, "Всі");
+
+            var model = new SoftwareListViewModel
+            {
+                Softwares = softwares.ToList(),
+                Categories = new SelectList(categories, "Id", "Name"),
+                LicenseTypes = new SelectList(licenseTypes)
+            };
+
+            return View(model);
         }
 
         // GET: /Software/Details/5
